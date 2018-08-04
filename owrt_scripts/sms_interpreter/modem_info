@@ -1,0 +1,34 @@
+#!/bin/sh
+
+. /usr/share/libubox/jshn.sh
+
+retval='{ '
+
+DEVICE="/dev/cdc-wdm1"
+
+DATA_STATUS=$(uqmi -d $DEVICE --get-data-status)
+
+CURRENT_SETTING=$(uqmi -d $DEVICE --get-current-settings)
+
+SIGNAL_INFO=$(uqmi -d $DEVICE --get-signal-info)
+
+SERVING_SYS=$(uqmi -d $DEVICE --get-serving-system)
+
+retval="$retval$DATA_STATUS"
+
+retval="$retval, $CURRENT_SETTING"
+
+json_load "$SIGNAL_INFO"
+json_get_var type type
+json_get_var rssi rssi
+retval="$retval, rf status:{$type, $rssi}"
+
+json_load "$SERVING_SYS"
+json_get_var registration registration
+json_get_var plmn_description plmn_description
+retval="$retval, cell status:{$registration, $plmn_description}"
+
+retval="$retval }"
+echo $retval
+
+

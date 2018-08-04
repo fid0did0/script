@@ -1,0 +1,36 @@
+
+config sms-device dev0
+	option device '/dev/cdc-wdm1'
+	option pin_code '5736'
+
+config sms-cmd wwan_modem_info
+	option enabled '1'
+	option sms_id 'modem_info'
+	option shell_cmd './modem_info'
+	option case_sensitive '1'
+	option send_answer '1'
+
+config sms-cmd open_tunnell
+	option enabled '0'
+	option sms_id 'open_tunnell'
+	option shell_cmd 'open_ssh_tunnel'
+	option send_answer '0'
+
+config sms-cmd ping
+	option enabled '1'
+	option sms_id 'ping'
+	option shell_cmd 'echo "[$(date)]: pong sms from $(uname -n)"'
+	option send_answer '1'
+
+config sms-cmd google_ping
+	option enabled '1'
+	option sms_id 'google_check'
+	option shell_cmd 'ping -c3 www.google.com'
+	option send_answer '1'
+
+config sms-cmd lipponet_ping
+	option enabled '1'
+	option sms_id 'lipponet_check'
+	option shell_cmd 'ping -c3 giuseppelippolis.dyndns.org'
+	option send_answer '1'
+
